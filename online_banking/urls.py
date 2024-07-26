@@ -16,9 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from users.views import userregistration
+from users.views import Userregistrations
 
+registration = Userregistrations()
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register',userregistration)
+    path('register/',registration.registrations),
+    path('login/',registration.login),
+    path('dashboard/',registration.dashboard),
+    path('deposite/',registration.deposite),
+    path('withdraw/',registration.withdraw),
+    path('accountSummary/',registration.AccountSummary),
+    path('ministatement/',registration.Ministatement),
+    path('detailedStatement/',registration.DetailedStatement),
+    path('addreceipient/',registration.Addreceipient),
+    path('deleterecipient/',registration.Deletereceipient),
+    path('transferfunds/',registration.TransferFunds),
+    path('transferhistory/',registration.TranferHistory),
+    path('createaccount/',registration.createAccount),
+    path('saveaddress/',registration.Adduseraddress),
+    # path('getaddresses/',registration.getuseraddresses),
+    # path('updataddress/',registration.Updateuseraddress),
+    # path('delete/useraddress',registration.DeleteUseraddress)
 ]

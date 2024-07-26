@@ -1,67 +1,73 @@
 from django.db import models
 
-class UserRegistration(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    user_name = models.CharField(max_length=10)
-    password = models.CharField(max_length=10,default='admin')
-    first_name = models.CharField(max_length=10)
-    last_name = models.CharField(max_length=10)
-    email = models.EmailField()
-    phone = models.IntegerField(null=True,blank=True)
-    status = models.CharField(max_length=10)
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_name = models.CharField(max_length=100)
+    password = models.CharField(max_length=100,default='admin')
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email_id = models.CharField(max_length=100,default=False)
+    phone = models.IntegerField(blank=True,default=False)
+    status = models.CharField(max_length=100)
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
+
+class address(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    address_type =models.CharField(max_length=100)
+    address1 = models.CharField(max_length=100)
+    address2 = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    zipcode = models.IntegerField()
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
     create_datetime = models.DateTimeField()
     update_datetime = models.DateTimeField()
 
-# class user_address(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     user_id = models.ForeignKey(UserRegistration,on_delete=models.CASCADE)
-#     address_type =models.CharField()
-#     address1 = models.CharField()
-#     address2 = models.CharField()
-#     city = models.CharField()
-#     zipcode = models.IntegerField()
-#     state = models.CharField()
-#     country = models.CharField()
-#     create_datetime = models.DateTimeField()
-#     update_datetime = models.DateTimeField()
+class User_accounts(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    account_no = models.IntegerField()
+    accounttype = models.CharField()
+    FromPast = models.CharField(max_length=100,blank=True)
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
 
-# class user_accounts(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     user_id = models.ForeignKey(UserRegistration,on_delete=models.CASCADE)
-#     accounts_no = models.IntegerField()
-#     accounts_type = models.CharField()
-#     From_past = models.CharField(blank =True)
-#     create_datetime = models.DateTimeField()
-#     update_datetime = models.DateTimeField()
+class User_recipients(models.Model):
+    id = models.AutoField(primary_key=True)
+    user= models.ForeignKey(User,on_delete=models.CASCADE)
+    account_no =models.IntegerField()
+    accounttype =models.CharField(max_length=1000,default=False)
+    transfer_type =models.CharField(max_length=100)
+    ifsc_code =models.CharField(max_length=100)
+    recipient_name =models.CharField(max_length=100)
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
 
-# class user_recipients(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     user_id = models.ForeignKey(UserRegistration,on_delete=models.CASCADE)
-#     recipient_account_no =models.ForeignKey(user_accounts,on_delete=models.CASCADE)
-#     recipient_accounttype =models.ForeignKey(user_accounts,on_delete=models.CASCADE)
-#     transfer_type =models.CharField()
-#     ifsc_code =models.CharField()
-#     recipient_name =models.CharField()
-#     create_datetime = models.DateTimeField()
-#     update_datetime = models.DateTimeField()
+class transactions(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    account =models.ForeignKey(User_accounts,on_delete=models.CASCADE)
+    txn_type =models.CharField(max_length=100)
+    amount = models.FloatField(default='')
+    status =models.CharField(max_length=100)
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
 
-# class transcations(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     user_id = models.ForeignKey(UserRegistration,on_delete=models.CASCADE)
-#     user_accounts_id =models.IntegerField()
-#     txn_type =models.CharField()
-#     amount = models.FloatField
-#     status =models.CharField()
-#     create_datetime = models.DateTimeField()
-#     update_datetime = models.DateTimeField()
+class transfers(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    recipient =models.ForeignKey(User_recipients,on_delete=models.CASCADE)
+    user_account =models.ForeignKey(transactions,on_delete=models.CASCADE)
+    amount =models.FloatField()
+    status =models.CharField(max_length=100)
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
 
-# class transfers(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     user_id = models.ForeignKey(UserRegistration,on_delete=models.CASCADE)
-#     recipient_id =models.IntegerField()
-#     user_accounts_id =models.ForeignKey(transcations,on_delete=models.CASCADE)
-#     amount =models.FloatField()
-#     status =models.CharField()
-#     create_datetime = models.DateTimeField()
-#     update_datetime = models.DateTimeField()
+
+
+
+
+
 
