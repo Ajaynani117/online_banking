@@ -273,7 +273,6 @@ class Userregistrations:
                 request_body = json.loads(request.body)
                 print(request_body)
 
-                # user_info = User(id=request_body.get('id'))
                 user_recip_info=User_recipients(user_id=request_body.get('user_id'))
 
                 print("first")
@@ -360,23 +359,25 @@ class Userregistrations:
                 request_body = json.loads(request.body)
                 print(request_body)
             
-            add_user_address = User(id = request_body.get("user_id"))
-            print(add_user_address)
+            # add_user_id = User(id = request_body.get("user_id"))
+            # print(add_user_id)
             print('middle')
             add_user_address_info = address(user_id= request_body.get("user_id"),
                                         address_type=request_body.get("address_type"),
-                                        address1 = request_body.get("addres1"),
+                                        address1 = request_body.get("address1"),
                                         address2=request_body.get("address2"),
                                         city = request_body.get("city"),
                                         zipcode = request_body.get("zipcode"),
                                         state = request_body.get("state"),
                                         country=request_body.get("country"))
+                                        # create_datetime=,
+                                        # update_datetime=)
             add_user_address_info.save()
-
-            print(add_user_address_info)
+            print('outrside')
 
             return HttpResponse([{"status":"success","code":"OLB_S000"}])
-        except:
+        except Exception as exc:
+            print(exc)
             print({
                   "status": "Failed",
                   "message": "user_id not availble",

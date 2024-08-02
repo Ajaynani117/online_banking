@@ -22,8 +22,8 @@ class address(models.Model):
     zipcode = models.IntegerField()
     state = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
-    create_datetime = models.DateTimeField()
-    update_datetime = models.DateTimeField()
+    create_datetime = models.DateTimeField(auto_now_add=True)
+    update_datetime = models.DateTimeField(auto_now_add=True)
 
 class User_accounts(models.Model):
     id = models.AutoField(primary_key=True)
