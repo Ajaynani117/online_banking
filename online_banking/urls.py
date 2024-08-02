@@ -35,7 +35,7 @@ urlpatterns = [
     path('transferhistory/',registration.TranferHistory),
     path('createaccount/',registration.createAccount),
     path('saveaddress/',registration.Adduseraddress),
-    # path('getaddresses/',registration.getuseraddresses),
-    # path('updataddress/',registration.Updateuseraddress),
-    # path('delete/useraddress',registration.DeleteUseraddress)
+    path('getaddresses/',registration.getuseraddresses),
+    path('updateaddress/',registration.Updateuseraddress),
+    path('delete/',registration.DeleteUseraddress)
 ]

@@ -343,10 +343,6 @@ class Userregistrations:
                                 phone = request_body.get("phone")
                                     )
             account_info.save()
-            # acc_info = User_accounts(accounttype = request_body.get("account_type"))
-                                                        
-            # acc_info.save()
-            
 
             return HttpResponse([{"status":"success","code":"OLB_S008"}])
         except:
@@ -359,10 +355,8 @@ class Userregistrations:
                 request_body = json.loads(request.body)
                 print(request_body)
             
-            # add_user_id = User(id = request_body.get("user_id"))
-            # print(add_user_id)
-            print('middle')
-            add_user_address_info = address(user_id= request_body.get("user_id"),
+            
+                add_user_address_info = address(user_id= request_body.get("user_id"),
                                         address_type=request_body.get("address_type"),
                                         address1 = request_body.get("address1"),
                                         address2=request_body.get("address2"),
@@ -370,12 +364,10 @@ class Userregistrations:
                                         zipcode = request_body.get("zipcode"),
                                         state = request_body.get("state"),
                                         country=request_body.get("country"))
-                                        # create_datetime=,
-                                        # update_datetime=)
-            add_user_address_info.save()
-            print('outrside')
+                                        
+                add_user_address_info.save()
 
-            return HttpResponse([{"status":"success","code":"OLB_S000"}])
+                return HttpResponse([{"status":"success","code":"OLB_S000"}])
         except Exception as exc:
             print(exc)
             print({
@@ -384,64 +376,82 @@ class Userregistrations:
                   "code": "OLB_E002"
                    })
             
-    # @csrf_exempt
-    # def getuseraddresses(self,request):
-    #     try:
-    #         if request.method == 'GET':
-    #          request_body = json.loads(request.body)
+    @csrf_exempt
+    def getuseraddresses(self,request):
+        try:
+            if request.method == 'GET':
+             request_body = json.loads(request.body)
 
-    #          addres_info = address.objects.filter(user_id = request_body.get("user_id"),
-    #                                                 address_type=request_body.get("address_type"),
-    #                                                 address1 = request_body.get("addres1"),
-    #                                                 address2=request_body.get("address2"),
-    #                                                 city = request_body.get("city"),
-    #                                                 zipcode = request_body.get("zipcode"),
-    #                                                 state = request_body.get("state"),
-    #                                                 country=request_body.get("country")
-    #                                               )
-    #          return HttpResponse(addres_info)
+             addres_info = address.objects.filter(user_id = request_body.get("user_id"),
+                                                    address_type=request_body.get("address_type"),
+                                                    address1 = request_body.get("addres1"),
+                                                    address2=request_body.get("address2"),
+                                                      city = request_body.get("city"),
+                                                    zipcode = request_body.get("zipcode"),
+                                                    state = request_body.get("state"),
+                                                    country=request_body.get("country"))
+            return HttpResponse(({addres_info}))
             
-    #     except:
-    #         print("in expecation block")
+        except Exception as exc:
+            print(exc)
+            print("in expecation block")
 
-    # @csrf_exempt
-    # def Updateuseraddress(self,request):
-    #     try:
-    #         if request.method == 'PUT':
-    #             request_body = json.loads(request.body)
+    @csrf_exempt
+    def Updateuseraddress(self,request):
+        try:
+            if request.method == 'PATCH':
+                request_body = json.loads(request.body)
+            print(request_body)
+            update_address = address   (user_id= request_body.get("user_id"),
+                                        address_type=request_body.get("address_type"),
+                                        address1 = request_body.get("address1"),
+                                        address2=request_body.get("address2"),
+                                        city = request_body.get("city"),
+                                        zipcode = request_body.get("zipcode"),
+                                        state = request_body.get("state"),
+                                        country=request_body.get("country"))
 
-    #         update_address = address(id= request_body.get("user_id"),
-    #                                     address_type=request_body.get("address_type"),
-    #                                     address1 = request_body.get("addres1"),
-    #                                     address2=request_body.get("address2"),
-    #                                     city = request_body.get("city"),
-    #                                     zipcode = request_body.get("zipcode"),
-    #                                     state = request_body.get("state"),
-    #                                     country=request_body.get("country"))
-
-    #         update_address.save()
+            update_address.save()
+            print(update_address)
+            print('otside')
             
-    #         return HttpResponse([{"status":"success","code":"OLB_S009"}])
-        
-    #     except:
-    #         print("in exception block")
+            return HttpResponse([{"status":"success","code":"OLB_S009"}])
+        except Exception as exc:
+            print(exc)
+            print('exception block')
+    @csrf_exempt
+    def getuseraddresses(self,request):
+        try:
+            if request.method == 'GET':
+             request_body = json.loads(request.body)
+
+             addres_info = address.objects.filter(user_id = request_body.get("user_id"),
+                                                    address_type=request_body.get("address_type"),
+                                                    address1 = request_body.get("addres1"),
+                                                    address2=request_body.get("address2"),
+                                                    city = request_body.get("city"),
+                                                    zipcode = request_body.get("zipcode"))                 
+        except Exception as exec:
+            print(exec)
+            print("in exception block")
     
-    # @csrf_exempt
-    # def DeleteUseraddress(self,request):
-    #     try:
-    #         if request.method == 'DELETE':
-    #             request_body = json.loads(request.body)
+    @csrf_exempt
+    def DeleteUseraddress(self,request):
+        try:
+            if request.method == 'DELETE':
+                request_body = json.loads(request.body)
 
+            print(request_body)
 
+            delete_address = address.objects.filter(user_id = request_body.get('user_id'),
+                                                     id = request_body.get('address_id'))
 
-    #         delete_address = address.objects.filter(user_id = request_body.get('user_id'),
-    #                                                  id = request_body.get('address_id'))
+            delete_address.delete()
 
-    #         delete_address.delete()
-
-    #         return HttpResponse([{"status":"success","code":"OLB_S018"}])
-    #     except:
-    #         print("in exception block")
+            return HttpResponse([{"status":"success","code":"OLB_S018"}])
+        except Exception as exc:
+            print(exc)
+            print("in exception block")
 
         
 
