@@ -1,10 +1,13 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.http import JsonResponse,HttpResponse,Http404,response
+from rest_framework.response import Response
 import json
 from .models import * 
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
-
+from online_banking.serializers import addressSerializer
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 
 
 
@@ -247,7 +250,6 @@ class Userregistrations:
 
             print("exception block")
 
-            print(exc)  
 
     @csrf_exempt
     def Deletereceipient(self,request):
@@ -258,7 +260,7 @@ class Userregistrations:
 
                 del_user_info = User_recipients.objects.filter(id = request_body.get('recipient_id'),
                                                                user_id = request_body.get('user_id')).delete()
-                print("its deleted")
+                print(del_user_info)
 
                 return HttpResponse([{"status":"success","code":"OLB_S007"}])
             
@@ -377,21 +379,16 @@ class Userregistrations:
                    })
             
     @csrf_exempt
+
     def getuseraddresses(self,request):
         try:
             if request.method == 'GET':
-             request_body = json.loads(request.body)
-
-             addres_info = address.objects.filter(user_id = request_body.get("user_id"),
-                                                    address_type=request_body.get("address_type"),
-                                                    address1 = request_body.get("addres1"),
-                                                    address2=request_body.get("address2"),
-                                                      city = request_body.get("city"),
-                                                    zipcode = request_body.get("zipcode"),
-                                                    state = request_body.get("state"),
-                                                    country=request_body.get("country"))
-            return HttpResponse(({addres_info}))
-            
+                request_body = json.loads(request.body)
+                print(request_body)
+                addres_info = address.objects.filter(user_id = request_body.get("user_id"))
+                serializer = addressSerializer(addres_info, many=True)
+                print(serializer.data)
+                return HttpResponse([{"response": serializer.data}])         
         except Exception as exc:
             print(exc)
             print("in expecation block")
@@ -419,21 +416,6 @@ class Userregistrations:
         except Exception as exc:
             print(exc)
             print('exception block')
-    @csrf_exempt
-    def getuseraddresses(self,request):
-        try:
-            if request.method == 'GET':
-             request_body = json.loads(request.body)
-
-             addres_info = address.objects.filter(user_id = request_body.get("user_id"),
-                                                    address_type=request_body.get("address_type"),
-                                                    address1 = request_body.get("addres1"),
-                                                    address2=request_body.get("address2"),
-                                                    city = request_body.get("city"),
-                                                    zipcode = request_body.get("zipcode"))                 
-        except Exception as exec:
-            print(exec)
-            print("in exception block")
     
     @csrf_exempt
     def DeleteUseraddress(self,request):
